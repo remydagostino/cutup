@@ -26,18 +26,18 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
   addTextBox() {
     // TODO: position, size should be dependent on current viewport
 
-    this.setState({
-      counter: this.state.counter + 1,
-      textBoxes: this.state.textBoxes.concat({
-        id: String(this.state.counter),
-        x: 0,
-        y: 0,
-        height: 300,
-        width: 100,
+    this.setState((state, props) => ({
+      counter: state.counter + 1,
+      textBoxes: state.textBoxes.concat({
+        id: String(state.counter),
+        x: 50,
+        y: 50,
+        height: 200,
+        width: 300,
         spacing: 2,
         text: 'Hello world'
       })
-    });
+    }));
   }
 
   render() {
