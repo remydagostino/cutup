@@ -1,0 +1,53 @@
+/* Colors 
+
+parchment: hsl(40, 50%, 95%);
+eggshell: ;
+royal blue: hsl(245, 72%, 55%);
+
+*/
+
+html, body {
+  font-family: helvetica, arial, sans-serif;
+  background: hsl(40, 50%, 95%);
+  margin: 0;
+  padding: 0;
+}
+
+.ca-box-control-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
+
+.ca-box-add-btn {
+  position: relative;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: hsl(245, 72%, 55%);
+}
+
+.ca-box-add-btn:hover,
+.ca-box-add-btn:focus { 
+  box-shadow: 0 0 8px 0 #666;
+  outline: 0;
+}
+
+.ca-box-add-btn:active {
+  background: hsl(245, 72%, 65%);
+  outline: 0;
+}
+
+.ca-box-add-btn_text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  line-height: 50px;
+  color: white;
+  font-size: 42px;
+}
