@@ -52,6 +52,11 @@ html, body {
   font-size: 42px;
 }
 
+
+/***************
+Text area
+***************/
+
 .ca-canvas {
   position: absolute;
   top: 0;
@@ -60,12 +65,17 @@ html, body {
   bottom: 0;
 }
 
+.ca-canvas_box {
+  position: absolute;
+}
+
+
 /***************
 Text area
 ***************/
 
 .ca-textbox {
-  position: absolute;
+  position: relative;
 }
 
 .ca-textbox_controls {
