@@ -13,6 +13,10 @@ html, body {
   padding: 0;
 }
 
+.ca-oldyfont {
+  font-family: "Georgia", serif;
+}
+
 .ca-box-control-panel {
   position: fixed;
   right: 20px;
@@ -69,6 +73,22 @@ Text area
   position: absolute;
 }
 
+.ca-canvas_box-grabber {
+  position: absolute;
+  left: -20px;
+  top: 13px;
+  height: 30px;
+  width: 30px;
+  
+  border-radius: 50%;
+  background: hsl(245, 72%, 55%);
+  line-height: 30px;
+  text-align: center;
+  color: #fff;
+
+  cursor: grab;
+}
+
 
 /***************
 Text area
@@ -84,13 +104,6 @@ Text area
   left: -20px;
   top: 13px;
   width: 40px;
-}
-
-.ca-textbox_grab-handle {
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  background: hsl(245, 72%, 55%);
 }
 
 .ca-textbox_editable {

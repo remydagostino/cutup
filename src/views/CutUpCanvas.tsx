@@ -33,9 +33,16 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
           className='ca-canvas_box' 
           style={boxToCss(data)} 
           key={data.id}
-          onMouseDown={(ev) => { this.boxMouseDown(data.id, ev); }}
         >
-          <TextBox {...data} />
+          <TextBox 
+            textBoxData={data} 
+            updateTextBox={this.props.updateTextBox}
+            deleteTextBox={this.props.deleteTextBox} 
+          />
+          <div 
+            className='ca-canvas_box-grabber' 
+            onMouseDown={(ev) => { this.boxMouseDown(data.id, ev); }}
+          >{data.id}</div>
         </div>
       )
     });
@@ -88,7 +95,6 @@ function boxToCss(box: Types.Box): React.CSSProperties {
   return {
     left: box.x,
     top: box.y,
-    width: box.width,
-    height: box.height
+    width: box.width
   };
 }
