@@ -11,14 +11,13 @@ html, body {
   background: hsl(40, 50%, 95%);
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
-.ca-oldyfont {
-  font-family: "Georgia", serif;
-}
 
 .ca-box-control-panel {
   position: fixed;
+  z-index: 3;
   right: 20px;
   bottom: 20px;
 }
@@ -69,17 +68,22 @@ Text area
   bottom: 0;
 }
 
+.ca-canvas__dragging {
+  user-select: none;
+}
+
 .ca-canvas_box {
   position: absolute;
 }
 
 .ca-canvas_box-grabber {
   position: absolute;
+  z-index: 2;
   left: -20px;
   top: 13px;
   height: 30px;
   width: 30px;
-  
+
   border-radius: 50%;
   background: hsl(245, 72%, 55%);
   line-height: 30px;
@@ -89,6 +93,10 @@ Text area
   cursor: grab;
 }
 
+.ca-canvas__dragging .ca-canvas_box-grabber {
+  cursor: grabbing;
+}
+
 
 /***************
 Text area
@@ -96,6 +104,8 @@ Text area
 
 .ca-textbox {
   position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 .ca-textbox_controls {
@@ -107,15 +117,24 @@ Text area
 }
 
 .ca-textbox_editable {
-  box-sizing: border-box;
   position: relative;
   height: 100%;
   width: 100%;
-  padding: 20px;
   background: none;
-  border: 0;
   resize: none;
   overflow: hidden;
+}
+
+.ca-textbox_textstyle {
+  font-family: "Georgia", serif;
+  font-size: 14px;
+  white-space: pre-wrap;
+  letter-spacing: normal;
+
+  box-sizing: border-box;
+  margin: 0;
+  padding: 1.5em;
+  border: 0;
 }
 
 .ca-textbox_editable:focus,

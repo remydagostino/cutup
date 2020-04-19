@@ -1,6 +1,6 @@
 A simple app which displays text boxes that can be overlayed and used creatively for generating random text via the cut-up technique.
 
-Workflow:
+Notes to self:
 
 - A plus button is visible in the bottom right.
 - Clicking it creates a text area on the page where text can be pasted
@@ -19,4 +19,11 @@ Workflow:
   - Some other poems?
   - Genesis
 - Need to sanitize html before setting (once I start loading potentially malicious data)
+- Better to use growing textbox than content-editable, saves having to deal with html
+- Hand should grab while dragging
+- Maybe line height should be set by the number of boxes rather than individual controls on the boxes. Two boxes means you want to interlace two pieces of text. 3 boxes means 3. There could be an additional global control.
+- Next up should be:
+  - [ ] Absolute positioning each line of text so that it can be copied.
+  - [ ] Zooming and panning the canvas
+  - [ ] Filling text boxes with random nonsense
 

@@ -35,7 +35,8 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
           key={data.id}
         >
           <TextBox 
-            textBoxData={data} 
+            textBoxData={data}
+            spacing={this.props.textBoxes.length} 
             updateTextBox={this.props.updateTextBox}
             deleteTextBox={this.props.deleteTextBox} 
           />
@@ -47,9 +48,14 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
       )
     });
 
+    const classNames = [
+      'ca-canvas', 
+      this.state.draggingBoxId != null ? 'ca-canvas__dragging' : false
+    ].filter(Boolean);
+
     return (
       <div 
-        className='ca-canvas' 
+        className={classNames.join(' ')}
         onMouseMove={(ev) => { this.canvasMouseMove(ev); }}
         onMouseUp={(ev) => { this.resetDragState(ev); }}
       >
@@ -95,6 +101,7 @@ function boxToCss(box: Types.Box): React.CSSProperties {
   return {
     left: box.x,
     top: box.y,
-    width: box.width
+    width: box.width,
+    height: box.height
   };
 }

@@ -7,7 +7,6 @@ export interface Box {
 
 export interface TextBox extends Box {
   id: string;
-  spacing: number;
   text: string;
 }
 
