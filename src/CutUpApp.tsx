@@ -32,9 +32,10 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
         id: String(state.counter),
         x: 50,
         y: 50,
-        height: 100,
+        height: 80,
         width: 300,
-        text: 'Hello world'
+        lines: [`${state.counter}a`, `${state.counter}b`, `${state.counter}c`, `${state.counter}d`],
+        text: `${state.counter}a\n${state.counter}b\n${state.counter}c\n${state.counter}d\n`
       })
     }));
   }

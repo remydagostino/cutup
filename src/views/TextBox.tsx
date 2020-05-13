@@ -15,42 +15,15 @@ export default class TextBox extends React.Component<TextBoxProps> {
 
     return (
       <div className='ca-textbox'>
-        <textarea 
-          className='ca-textbox_editable ca-textbox_textstyle'
-          spellCheck='false'
-          role='textbox'
-          style={spacingToStyle(this.props.spacing)}
-          onChange={(ev) => this.saveChanges(ev.target.value)}
-          onBlur={(ev) => this.deleteIfEmpty(ev.target.value)}
-          value={data.text}
-        ></textarea>
+        <ul className='ca-textbox_lines ca-textbox_debugLines'>
+          {data.lines.map((line, i) => (<li className='ca-textbox_textstyle' key={i}>{line}</li>))}
+        </ul>
         <div className='ca-textbox_controls'>
           <div className='ca-textbox_line-height-increase'></div>
           <div className='ca-textbox_line-height-decrease'></div>
         </div>
       </div>
     );
-  }
-
-  saveChanges(newText: string) {
-    const calculatedHeight = measureContentHeight(
-      'ca-textbox_textstyle', 
-      this.props.textBoxData.width, 
-      this.props.spacing,
-      newText
-    );
-
-    this.props.updateTextBox({
-      ...this.props.textBoxData,
-      text: newText,
-      height: calculatedHeight
-    });
-  }
-
-  deleteIfEmpty(newText: string) {
-    if (newText.trim() === '') {
-      this.props.deleteTextBox(this.props.textBoxData.id);
-    }
   }
 };
 

@@ -8,6 +8,7 @@ export interface Box {
 export interface TextBox extends Box {
   id: string;
   text: string;
+  lines: Array<string>
 }
 
 

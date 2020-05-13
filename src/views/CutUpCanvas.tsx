@@ -27,12 +27,14 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
   }
 
   render() {
-    const boxViews = this.props.textBoxes.map((data) => {
+    const boxes: Array<Types.TextBox> = collideBoxes(this.props.textBoxes);
+
+    const boxViews = boxes.map((data, index) => {
       return (
         <div 
           className='ca-canvas_box' 
           style={boxToCss(data)} 
-          key={data.id}
+          key={index}
         >
           <TextBox 
             textBoxData={data}
@@ -40,6 +42,17 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
             updateTextBox={this.props.updateTextBox}
             deleteTextBox={this.props.deleteTextBox} 
           />
+        </div>
+      )
+    });
+
+    const grabberViews = this.props.textBoxes.map((data, index) => {
+      return (
+        <div 
+          className='ca-canvas_box' 
+          style={boxToCss(data)} 
+          key={index}
+        >
           <div 
             className='ca-canvas_box-grabber' 
             onMouseDown={(ev) => { this.boxMouseDown(data.id, ev); }}
@@ -59,7 +72,8 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
         onMouseMove={(ev) => { this.canvasMouseMove(ev); }}
         onMouseUp={(ev) => { this.resetDragState(ev); }}
       >
-        {boxViews}
+        <div>{boxViews}</div>
+        <div>{grabberViews}</div>
       </div>
     );
   }
@@ -95,6 +109,52 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
       dragOffsetY: null
     })
   }
+}
+
+
+function collideBoxes(boxes: Array<Types.TextBox>): Array<Types.TextBox> {
+  // if no boxes left, return empty list
+  // if only one box left, return that box
+  if (boxes.length <= 1) {
+    return boxes;
+  }
+
+  const firstBox = boxes[0];
+  const restBoxes = boxes.slice(1);
+  const firstCollision = boxes.slice(1).findIndex((otherBox) => {
+    return doBoxesOverlap(firstBox, otherBox);
+  });
+
+  if (firstCollision === -1) {
+    return [firstBox].concat(collideBoxes(restBoxes));
+  } else {
+    const collidedBox = restBoxes.splice(firstCollision, 1)[0];
+
+    return collideBoxes([mergeTextBoxes(firstBox, collidedBox)].concat(restBoxes));
+  }
+}
+
+function mergeTextBoxes(textBox1: Types.TextBox, textBox2: Types.TextBox): Types.TextBox {
+  const lines = textBox1.lines.concat(textBox2.lines);
+
+  return {
+    id: '',
+    x: Math.min(textBox1.x, textBox2.x),
+    y: Math.min(textBox1.x, textBox2.x),
+    height: textBox1.height + textBox2.height,
+    width: Math.max(textBox1.width, textBox2.width),
+    lines: textBox1.lines.concat(textBox2.lines),
+    text: lines.join(' ')
+  }
+}
+
+function doBoxesOverlap(box1: Types.Box, box2: Types.Box): boolean {
+  return (
+    box1.x < box2.x + box2.width &&
+    box1.x + box1.width > box2.x &&
+    box1.y < box2.y + box2.height &&
+    box1.y + box1.height > box2.y
+  );
 }
 
 function boxToCss(box: Types.Box): React.CSSProperties {

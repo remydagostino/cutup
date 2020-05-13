@@ -27,3 +27,12 @@ Notes to self:
   - [ ] Zooming and panning the canvas
   - [ ] Filling text boxes with random nonsense
 
+
+Layout algorithm:
+	- Documents contain text, and have a width and position
+	- Document text is chopped up into lines (this requires dom thrashing, find a way to cache this calculation)
+	- Interleaving: 
+		- Documents that overlap are join into larger documents, lines are distributed according to y position (higher lines go first)
+	- Each document gets its own div
+	- Lines are positioned according to their line number, and their document position
+

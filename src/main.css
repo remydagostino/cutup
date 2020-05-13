@@ -125,15 +125,26 @@ Text area
   overflow: hidden;
 }
 
+.ca-textbox_lines {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 20px;
+}
+
+.ca-textbox_debugLines > li {
+  border: 2px solid hsla(0, 100%, 20%, 50%);
+}
+
 .ca-textbox_textstyle {
   font-family: "Georgia", serif;
-  font-size: 14px;
+  font-size: 16px;
   white-space: pre-wrap;
   letter-spacing: normal;
+  height: 24px;
+  line-height: 24px;
 
   box-sizing: border-box;
   margin: 0;
-  padding: 1.5em;
   border: 0;
 }
 
