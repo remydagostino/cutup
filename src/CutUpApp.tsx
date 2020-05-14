@@ -32,9 +32,11 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
         id: String(state.counter),
         x: 50,
         y: 50,
-        height: 80,
+        height: 24 * 4,
         width: 300,
-        lines: [`${state.counter}a`, `${state.counter}b`, `${state.counter}c`, `${state.counter}d`],
+        lines: [`${state.counter}a Hello world`, `${state.counter}b I am a banana`, `${state.counter}c merge text`, `${state.counter}d whatever happens`].map(
+          (text) => ({ text, xOffset: 0 })
+        ),
         text: `${state.counter}a\n${state.counter}b\n${state.counter}c\n${state.counter}d\n`
       })
     }));

@@ -50,7 +50,7 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
       return (
         <div 
           className='ca-canvas_box' 
-          style={boxToCss(data)} 
+          style={({ left: data.x, top: data.y })}
           key={index}
         >
           <div 
@@ -135,16 +135,34 @@ function collideBoxes(boxes: Array<Types.TextBox>): Array<Types.TextBox> {
 }
 
 function mergeTextBoxes(textBox1: Types.TextBox, textBox2: Types.TextBox): Types.TextBox {
-  const lines = textBox1.lines.concat(textBox2.lines);
+  const textBox1Lines = textBox1.lines.map((line, index) => {
+    return {
+      text: line.text,
+      xOffset: line.xOffset + (textBox1.x < textBox2.x ? 0 : Math.abs(textBox1.x - textBox2.x)),
+      yOffset: textBox1.y + (index * 24)
+    };
+  });
+
+  const textBox2Lines = textBox2.lines.map((line, index) => {
+    return {
+      text: line.text,
+      xOffset: line.xOffset + (textBox2.x < textBox1.x ? 0 : Math.abs(textBox1.x - textBox2.x)),
+      yOffset: textBox2.y + (index * 24)
+    };
+  });
+
+  const orderedLines = [...textBox1Lines, ...textBox2Lines].sort((l1, l2) => l1.yOffset - l2.yOffset);
+
+  const lines = orderedLines.map(({ text, xOffset }) => ({ text, xOffset }));
 
   return {
     id: '',
     x: Math.min(textBox1.x, textBox2.x),
-    y: Math.min(textBox1.x, textBox2.x),
+    y: Math.min(textBox1.y, textBox2.y),
     height: textBox1.height + textBox2.height,
     width: Math.max(textBox1.width, textBox2.width),
-    lines: textBox1.lines.concat(textBox2.lines),
-    text: lines.join(' ')
+    lines: lines,
+    text: lines.map(({ text }) => text).join(' ')
   }
 }
 
