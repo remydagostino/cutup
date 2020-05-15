@@ -161,3 +161,18 @@ Text area
 .ca-textbox_editable:active {
   outline: 3px solid hsl(40, 50%, 85%);
 }
+
+
+/***************
+Edit Overlay
+***************/
+
+.ca-editOverlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: hsla(0, 0%, 100%, 20%);
+  z-index: 20;
+}

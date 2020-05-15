@@ -2,6 +2,7 @@ import * as React from 'React';
 import * as Types from './types'
 
 import CutUpCanvas from './views/CutUpCanvas';
+import EditOverlay from './views/EditOverlay';
 
 export interface CutUpAppProps {
 
@@ -11,6 +12,8 @@ interface CutUpAppState {
   textBoxes: Array<Types.TextBox>;
   counter: number;
   visualDebugMode: boolean;
+  textEditContent: null | string;
+  textEditCallback: null | Types.TextEditCallback;
 }
 
 
@@ -23,7 +26,9 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
     this.state = {
       textBoxes: [],
       counter: 1,
-      visualDebugMode: false
+      visualDebugMode: false,
+      textEditContent: null,
+      textEditCallback: null
     };
 
     this.globalKeydownHandler = (...args) => { 
@@ -33,21 +38,17 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
 
   createTextBox() {
     // TODO: position, size should be dependent on current viewport
-
-    this.setState((state, props) => ({
-      counter: state.counter + 1,
-      textBoxes: state.textBoxes.concat({
-        id: String(state.counter),
-        x: 50,
-        y: 50,
-        height: 24 * 4,
-        width: 300,
-        lines: [`${state.counter}a Hello world`, `${state.counter}b I am a banana`, `${state.counter}c merge text`, `${state.counter}d whatever happens`].map(
-          (text) => ({ text, xOffset: 0 })
-        ),
-        text: `${state.counter}a\n${state.counter}b\n${state.counter}c\n${state.counter}d\n`
-      })
-    }));
+    this.setState({
+      textEditContent: '',
+      textEditCallback: (text: string) => {
+        this.setState((state, props) => {
+          return {
+            counter: state.counter + 1,
+            textBoxes: state.textBoxes.concat(textToTextbox(String(state.counter), text))
+          };
+        });
+      }
+    });
   }
 
   updateTextBox(newData: Types.TextBox) {
@@ -65,6 +66,12 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
   }
 
   render() {
+    const { textEditContent, textEditCallback } = this.state;
+
+    const editingOverlay = (textEditContent !== null && textEditCallback !== null) 
+      ? (<EditOverlay content={textEditContent} editCallback={textEditCallback} />)
+      : null
+
     return (
       <div className={'ca-app' + (this.state.visualDebugMode ? ' ca-app_visualDebugMode' : '')}>
         <CutUpCanvas 
@@ -77,6 +84,7 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
             <span className='ca-box-add-btn_text'>+</span>
           </button> 
         </div>
+        { editingOverlay }
       </div>
     );
   }
@@ -90,10 +98,26 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
   }
 }
 
+function textToTextbox(id: string, text: string): Types.TextBox {
+  return {
+    id,
+    x: 50,
+    y: 50,
+    height: 24,
+    width: 300,
+    lines: [{ text, xOffset: 0 }],
+    text
+  };
+}
+
 
 function globalKeydownHandler(this: CutUpApp, ev: KeyboardEvent): void {
-  // Shift + '`'
+  // : Shift + '`'
   if (ev.shiftKey === true && ev.keyCode === 192) {
     this.setState((state) => ({ visualDebugMode: !state.visualDebugMode }));
-  }    
+  }
+  // : escape
+  else if (ev.keyCode === 27) {
+    this.setState({ textEditContent: null, textEditCallback: null });
+  }
 }

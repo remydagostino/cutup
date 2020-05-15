@@ -16,4 +16,6 @@ export interface TextBoxLine {
   xOffset: number;
 }
 
+export type TextEditCallback = (text: string) => void;
+
 
