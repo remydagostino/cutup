@@ -113,23 +113,6 @@ Text area
   width: 100%;
 }
 
-.ca-textbox_controls {
-  position: absolute;
-  display: flex;
-  left: -20px;
-  top: 13px;
-  width: 40px;
-}
-
-.ca-textbox_editable {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background: none;
-  resize: none;
-  overflow: hidden;
-}
-
 .ca-textbox_lines {
   list-style: none;
   margin: 0;
@@ -175,4 +158,50 @@ Edit Overlay
   right: 0;
   background: hsla(0, 0%, 100%, 20%);
   z-index: 20;
+}
+
+.ca-editOverlay_paper {
+  background: white;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 800px;
+  max-width: 90%;
+  margin: 80px auto 0 auto;
+  box-shadow: 0 0 10px 0px hsla(0, 0%, 0%, 20%);
+
+  transform-origin: top center;
+  animation-duration: 0.8s;
+  animation-name: ca-paperslip;
+}
+
+.ca-editOverlay_paper > textarea {
+  font-family: "Georgia", serif;
+  font-size: 16px;
+
+  border: 0;
+  outline: 0;
+  height: 100%;
+  width: 100%;
+  padding: 60px;
+  box-sizing: border-box;
+  resize: none;
+}
+
+@keyframes ca-paperslip {
+  from {
+    opacity: 0;
+    transform: perspective(600px) rotateX(-30deg) translate3d(0, 20%, -200px);
+  }
+
+  70% {
+    opacity: 1;
+    transform: perspective(600px) rotateX(0deg) translate3d(0, -10px, 50px);
+  }
+
+  to {
+    transform: perspective(600px) rotateX(0deg) translate3d(0, 0, 0);
+  }
 }
