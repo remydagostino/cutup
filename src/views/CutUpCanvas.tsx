@@ -27,6 +27,7 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
   }
 
   render() {
+    // TODO: colliding and laying out boxes should be it's own component
     const boxes: Array<Types.TextBox> = collideBoxes(this.props.textBoxes);
 
     const boxViews = boxes.map((data, index) => {
@@ -46,15 +47,16 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
       )
     });
 
+    // TODO: grabbers should be collected into another view
     const grabberViews = this.props.textBoxes.map((data, index) => {
       return (
         <div 
-          className='ca-canvas_box' 
+          className='ca-canvas_boxGrabber' 
           style={({ left: data.x, top: data.y })}
           key={index}
         >
           <div 
-            className='ca-canvas_box-grabber' 
+            className='ca-canvas_boxGrabberLabel' 
             onMouseDown={(ev) => { this.boxMouseDown(data.id, ev); }}
           >{data.id}</div>
         </div>
@@ -72,8 +74,8 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
         onMouseMove={(ev) => { this.canvasMouseMove(ev); }}
         onMouseUp={(ev) => { this.resetDragState(ev); }}
       >
-        <div>{boxViews}</div>
-        <div>{grabberViews}</div>
+        <div className='ca-canvas_boxes'>{boxViews}</div>
+        <div className='ca-canvas_grabbers'>{grabberViews}</div>
       </div>
     );
   }

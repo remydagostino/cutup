@@ -76,7 +76,11 @@ Text area
   position: absolute;
 }
 
-.ca-canvas_box-grabber {
+.ca-canvas_boxGrabber {
+  position: absolute;
+}
+
+.ca-canvas_boxGrabberLabel {
   position: absolute;
   z-index: 2;
   left: -40px;
