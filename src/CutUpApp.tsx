@@ -10,17 +10,25 @@ export interface CutUpAppProps {
 interface CutUpAppState {
   textBoxes: Array<Types.TextBox>;
   counter: number;
+  visualDebugMode: boolean;
 }
 
 
 export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppState> {
+  globalKeydownHandler: (ev: KeyboardEvent) => void;
+
   constructor(props: CutUpAppProps) {
     super(props);
 
     this.state = {
       textBoxes: [],
-      counter: 1
+      counter: 1,
+      visualDebugMode: false
     };
+
+    this.globalKeydownHandler = (...args) => { 
+      return globalKeydownHandler.apply(this, args);
+    }
   }
 
   createTextBox() {
@@ -58,7 +66,7 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
 
   render() {
     return (
-      <div className='ca-app'>
+      <div className={'ca-app' + (this.state.visualDebugMode ? ' ca-app_visualDebugMode' : '')}>
         <CutUpCanvas 
           textBoxes={this.state.textBoxes} 
           updateTextBox={(data: Types.TextBox) => { this.updateTextBox(data); } }
@@ -72,4 +80,20 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
       </div>
     );
   }
+
+  componentDidMount() {
+    window.document.addEventListener('keydown', this.globalKeydownHandler);
+  }
+
+  componentWillUnmount() {
+    window.document.removeEventListener('keydown', this.globalKeydownHandler);
+  }
+}
+
+
+function globalKeydownHandler(this: CutUpApp, ev: KeyboardEvent): void {
+  // Shift + '`'
+  if (ev.shiftKey === true && ev.keyCode === 192) {
+    this.setState((state) => ({ visualDebugMode: !state.visualDebugMode }));
+  }    
 }

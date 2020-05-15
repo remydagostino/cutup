@@ -136,8 +136,8 @@ Text area
   position: relative;
 }
 
-.ca-textbox_debugLines > li {
-  border: 2px solid hsla(0, 100%, 20%, 50%);
+.ca-app_visualDebugMode .ca-textbox_lines_line {
+  box-shadow: 0px 0px 0px 1px hsla(0, 100%, 20%, 50%);
 }
 
 .ca-textbox_textstyle {
