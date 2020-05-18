@@ -13,7 +13,6 @@ interface CutUpAppState {
   counter: number;
   visualDebugMode: boolean;
   textEditContent: null | string;
-  textEditCallback: null | Types.TextEditCallback;
 }
 
 
@@ -27,8 +26,7 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
       textBoxes: [],
       counter: 1,
       visualDebugMode: false,
-      textEditContent: null,
-      textEditCallback: null
+      textEditContent: null
     };
 
     this.globalKeydownHandler = (...args) => { 
@@ -38,17 +36,7 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
 
   createTextBox() {
     // TODO: position, size should be dependent on current viewport
-    this.setState({
-      textEditContent: '',
-      textEditCallback: (text: string) => {
-        this.setState((state, props) => {
-          return {
-            counter: state.counter + 1,
-            textBoxes: state.textBoxes.concat(textToTextbox(String(state.counter), text))
-          };
-        });
-      }
-    });
+    this.setState({textEditContent: ''});
   }
 
   updateTextBox(newData: Types.TextBox) {
@@ -65,11 +53,20 @@ export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppSta
     }));
   }
 
-  render() {
-    const { textEditContent, textEditCallback } = this.state;
+  updateTextEditContent(text: string) {
+    this.setState({ textEditContent: text });
+  }
 
-    const editingOverlay = (textEditContent !== null && textEditCallback !== null) 
-      ? (<EditOverlay content={textEditContent} editCallback={textEditCallback} />)
+  render() {
+    const { textEditContent } = this.state;
+
+    const editingOverlay = (textEditContent !== null) 
+      ? (
+          <EditOverlay 
+            content={textEditContent} 
+            updateContent={(text: string) => this.updateTextEditContent(text)} 
+          />
+        )
       : null
 
     return (
@@ -118,6 +115,6 @@ function globalKeydownHandler(this: CutUpApp, ev: KeyboardEvent): void {
   }
   // : escape
   else if (ev.keyCode === 27) {
-    this.setState({ textEditContent: null, textEditCallback: null });
+    this.setState({ textEditContent: null });
   }
 }

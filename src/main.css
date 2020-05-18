@@ -158,18 +158,20 @@ Edit Overlay
   right: 0;
   background: hsla(0, 0%, 100%, 20%);
   z-index: 20;
+
+  overflow-y: scroll;
 }
 
 .ca-editOverlay_paper {
   background: white;
   position: absolute;
   top: 0;
-  bottom: 0;
   left: 0;
   right: 0;
   width: 800px;
-  max-width: 90%;
-  margin: 80px auto 0 auto;
+  min-height: 100%;
+  max-width: calc(100% - 140px);
+  margin: 80px auto;
   box-shadow: 0 0 10px 0px hsla(0, 0%, 0%, 20%);
 
   transform-origin: top center;
@@ -188,6 +190,7 @@ Edit Overlay
   padding: 60px;
   box-sizing: border-box;
   resize: none;
+  overflow: hidden;
 }
 
 @keyframes ca-paperslip {
