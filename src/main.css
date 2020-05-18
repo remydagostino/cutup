@@ -17,12 +17,13 @@ html, body {
 
 .ca-box-control-panel {
   position: fixed;
-  z-index: 3;
+  z-index: 50;
   right: 20px;
   bottom: 20px;
 }
 
-.ca-box-add-btn {
+
+.ca-app_primaryButton {
   position: relative;
   height: 50px;
   width: 50px;
@@ -30,21 +31,19 @@ html, body {
   margin: 0;
   padding: 0;
   border: 0;
-  background: hsl(245, 72%, 55%);
 }
 
-.ca-box-add-btn:hover,
-.ca-box-add-btn:focus { 
+.ca-app_primaryButton:hover,
+.ca-app_primaryButton:focus { 
   box-shadow: 0 0 8px 0 #666;
   outline: 0;
 }
 
-.ca-box-add-btn:active {
-  background: hsl(245, 72%, 65%);
+.ca-app_primaryButton:active {
   outline: 0;
 }
 
-.ca-box-add-btn_text {
+.ca-app_primaryButtonText {
   position: absolute;
   top: 0;
   left: 0;
@@ -52,8 +51,16 @@ html, body {
   bottom: 0;
   line-height: 50px;
   color: white;
-  font-size: 42px;
 }
+
+.ca-box-add-btn        { background: hsl(245, 72%, 55%); }
+.ca-box-add-btn:active { background: hsl(245, 72%, 65%); }
+.ca-box-add-btn > .ca-app_primaryButtonText { font-size: 42px; }
+
+.ca-box-commit-btn        { background: hsl(135, 65%, 55%); }
+.ca-box-commit-btn:active { background: hsl(135, 65%, 65%); }
+.ca-box-commit-btn > .ca-app_primaryButtonText { font-size: 26px; }
+
 
 
 /***************
@@ -121,6 +128,12 @@ Text area
 
 .ca-textbox_lines_line {
   position: relative;
+  box-sizing: border-box;
+  white-space: nowrap;
+  height: 24px;
+  line-height: 24px;
+  margin: 0;
+  border: 0;
 }
 
 .ca-app_visualDebugMode .ca-textbox_lines_line {
@@ -130,14 +143,7 @@ Text area
 .ca-textbox_textstyle {
   font-family: "Georgia", serif;
   font-size: 16px;
-  white-space: pre-wrap;
   letter-spacing: normal;
-  height: 24px;
-  line-height: 24px;
-
-  box-sizing: border-box;
-  margin: 0;
-  border: 0;
 }
 
 .ca-textbox_editable:focus,
@@ -169,7 +175,6 @@ Edit Overlay
   left: 0;
   right: 0;
   width: 800px;
-  min-height: 100%;
   max-width: calc(100% - 140px);
   margin: 80px auto;
   box-shadow: 0 0 10px 0px hsla(0, 0%, 0%, 20%);
@@ -185,6 +190,7 @@ Edit Overlay
 
   border: 0;
   outline: 0;
+  min-height: 1000px;
   height: 100%;
   width: 100%;
   padding: 60px;

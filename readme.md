@@ -36,3 +36,20 @@ Layout algorithm:
 	- Each document gets its own div
 	- Lines are positioned according to their line number, and their document position
 
+
+18/05/2020
+
+- UI of input dialog 
+  - fix the auto-sizing of the text input
+  - make the whole area clickable
+  - add save button overtop of add button
+  - add an X button to the top right to allow exiting
+- Populating text boxes
+  - Allow a single line to be added
+  - Layout text over multiple lines
+  - Keep track of calculate max width and height when laying out text
+
+
+Bugs:
+- End of sentence punctuation can end up getting split to the next line
+- Code, especially stuff with indentation gets a bit messed up
