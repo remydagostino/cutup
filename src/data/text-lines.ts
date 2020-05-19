@@ -17,8 +17,6 @@ export function inTextWrapper<A>(doc: HTMLDocument, className: string, width: nu
     measure: (text) => {
       el.innerText = text;
 
-      console.log('measure', text, el.scrollWidth);
-
       return el.scrollWidth;
     }
   });
@@ -33,7 +31,11 @@ export function textToParagraphs(text: string): Array<string> {
 }
 
 export function textToWords(text: string): Array<string> {
-  return text.split(/\b/);
+  return text.split(' ');
+}
+
+export function joinWords(w1: string, w2: string): string {
+  return [w1, w2].map((w) => w.trim()).filter(Boolean).join(' ');
 }
 
 export function paragraphsToLines(paragraphs: Array<string>, lineWidth: number, textWrapper: TextWrapper): Array<string> {
@@ -47,7 +49,7 @@ export function paragraphsToLines(paragraphs: Array<string>, lineWidth: number, 
 
 export function wordsToLines(words: Array<string>, lineWidth: number, textWrapper: TextWrapper): Array<string> {
   const fittingWordCount = howManyExtraWordsFit('', words, lineWidth, textWrapper);
-  const line = words.slice(0, fittingWordCount + 1).join('');
+  const line = words.slice(0, fittingWordCount + 1).reduce(joinWords, '');
   const remainingWords = words.slice(fittingWordCount + 1);
 
   if (remainingWords.length > 0) {
@@ -62,7 +64,7 @@ export function howManyExtraWordsFit(sentence: string, words: Array<string>, lin
     return 0;
   }
 
-  const extendedSentence = sentence + words[0];
+  const extendedSentence = joinWords(sentence, words[0]);
 
   if (textWrapper.measure(extendedSentence) <= lineWidth) {
     return 1 + howManyExtraWordsFit(extendedSentence, words.slice(1), lineWidth, textWrapper);
