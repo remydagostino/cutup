@@ -15,7 +15,11 @@ export default class TextBox extends React.Component<TextBoxProps> {
 
     const lines = data.lines.map((line, i) => {
       return (
-        <li className='ca-textbox_textstyle ca-textbox_lines_line' key={i} style={({ left: `${line.xOffset}px` })}>{line.text}</li>
+        <li 
+          key={i} 
+          className='ca-textbox_textstyle ca-textbox_lines_line' 
+          style={({ marginLeft: `${line.xOffset}px` })}
+        >{line.text}</li>
       )
     });
 

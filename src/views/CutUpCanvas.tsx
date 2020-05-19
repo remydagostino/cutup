@@ -128,7 +128,15 @@ function collideBoxes(boxes: Array<Types.TextBox>): Array<Types.TextBox> {
   });
 
   if (firstCollision === -1) {
-    return [firstBox].concat(collideBoxes(restBoxes));
+    const restBoxesCollided = collideBoxes(restBoxes);
+    const allBoxes = [firstBox].concat(restBoxesCollided)
+
+    // If the later boxes collided, it's possible that they're big enough for us to collide with now
+    if (restBoxesCollided.length < restBoxes.length) {
+      return collideBoxes(allBoxes);
+    } else {
+      return allBoxes;
+    }
   } else {
     const collidedBox = restBoxes.splice(firstCollision, 1)[0];
 
@@ -162,7 +170,7 @@ function mergeTextBoxes(textBox1: Types.TextBox, textBox2: Types.TextBox): Types
     x: Math.min(textBox1.x, textBox2.x),
     y: Math.min(textBox1.y, textBox2.y),
     height: textBox1.height + textBox2.height,
-    width: Math.max(textBox1.width, textBox2.width),
+    width: Math.max(textBox1.width, textBox2.width) + lines.reduce((acc, l) => Math.max(acc, l.xOffset), 0),
     lines: lines,
     text: lines.map(({ text }) => text).join(' ')
   }
