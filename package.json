@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
     "start": "webpack-dev-server",
-    "build": "webpack"
+    "build": "rm -r docs & webpack"
   },
   "author": "",
   "license": "ISC",
