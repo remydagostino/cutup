@@ -7,7 +7,7 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     index: './index.html',
-    contentBase: './dist'
+    contentBase: './docs' // <- this is for github pages
   },
   module: {
     rules: [
