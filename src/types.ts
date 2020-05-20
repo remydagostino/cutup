@@ -18,4 +18,10 @@ export interface TextBoxLine {
 
 export type TextEditCallback = (text: string) => void;
 
+export interface CutUpAppState {
+  textBoxes: Array<TextBox>;
+  counter: number;
+  visualDebugMode: boolean;
+  textEditContent: null | string;
+}
 

@@ -1,6 +1,7 @@
 import * as React from 'React';
 import * as Types from './types'
 import * as TextLines from './data/text-lines';
+import { cynicalInstructions } from './data/initial-state';
 
 import CutUpCanvas from './views/CutUpCanvas';
 import EditOverlay from './views/EditOverlay';
@@ -9,30 +10,21 @@ export interface CutUpAppProps {
 
 }
 
-interface CutUpAppState {
-  textBoxes: Array<Types.TextBox>;
-  counter: number;
-  visualDebugMode: boolean;
-  textEditContent: null | string;
-}
-
-
-export default class CutUpApp extends React.Component<CutUpAppProps, CutUpAppState> {
+export default class CutUpApp extends React.Component<CutUpAppProps, Types.CutUpAppState> {
   globalKeydownHandler: (ev: KeyboardEvent) => void;
 
   constructor(props: CutUpAppProps) {
     super(props);
 
-    this.state = {
-      textBoxes: [],
-      counter: 1,
-      visualDebugMode: false,
-      textEditContent: null
-    };
+    this.state = cynicalInstructions();
 
     this.globalKeydownHandler = (...args) => { 
       return globalKeydownHandler.apply(this, args);
     }
+
+    (window as any).debugAppState = () => {
+      console.log(this.state);
+    };
   }
 
   openTextEdit() {
