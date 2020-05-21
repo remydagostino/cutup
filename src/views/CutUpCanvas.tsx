@@ -6,7 +6,8 @@ import * as Types from '../types'
 export interface CutUpCanvasProps {
   textBoxes: Array<Types.TextBox>;
   selectedTextBox: null | string;
-  updateTextBox: (data: Types.TextBox) => void;
+  editTextBoxContent: (id: string) => void;
+  updateTextBox: (textBox: Types.TextBox) => void;
   deleteTextBox: (id: string) => void;
   updateSelectedTextBox: (id: string | null) => void;
 }
@@ -65,7 +66,7 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
 
           <div 
             className='ca-canvas_boxGrabberEditButton' 
-            onMouseDown={(ev) => { console.log('edit') }}
+            onMouseDown={(ev) => { this.props.editTextBoxContent(data.id); }}
           >+</div>
 
           <div 

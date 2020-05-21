@@ -27,26 +27,60 @@ export default class CutUpApp extends React.Component<CutUpAppProps, Types.CutUp
     };
   }
 
-  openTextEdit() {
-    // TODO: position, size should be dependent on current viewport
+  openNewTextEdit() {
     this.setState({textEditContent: ''});
   }
 
+  openTextBoxForEdit(editingTextboxId: string) {
+    const textBox = this.state.textBoxes.find(({ id }) => id === editingTextboxId);
+
+    if (textBox) {
+      this.setState({
+        textEditContent: textBox.text,
+        editingTextboxId
+      });
+    }
+  }
+
   createTextBox() {
-    this.setState((state) => {
-      const textBox = textToTextbox(String(state.counter), state.textEditContent);
+    this.setState((state: Types.CutUpAppState) => {
+      const newTextBox = textToTextbox(String(state.counter), state.textEditContent);
 
       // For some reason, creating a new text box was not possible
       // TODO: display the error somehow
-      if (textBox === null) {
+      if (newTextBox === null) {
         return null;
       } 
 
-      return {
-        counter: state.counter + 1,
-        textBoxes: state.textBoxes.concat(textBox),
-        textEditContent: null
-      };
+      if (state.editingTextboxId !== null) {
+        return {
+          counter: null,
+          editingTextboxId: null,
+          textEditContent: null,
+          textBoxes: state.textBoxes.map((textBox) => {
+            if (textBox.id === state.editingTextboxId) {
+              return {
+                id: textBox.id,
+                x: textBox.x,
+                y: textBox.y,
+                height: newTextBox.height,
+                width: newTextBox.width,
+                lines: newTextBox.lines,
+                text: newTextBox.text
+              }
+            } else {
+              return textBox;
+            }
+          })
+        };
+      } else {
+        return {
+          counter: state.counter + 1,
+          editingTextboxId: null,
+          textEditContent: null,
+          textBoxes: state.textBoxes.concat(newTextBox)
+        };
+      }
     });
   }
 
@@ -83,7 +117,7 @@ export default class CutUpApp extends React.Component<CutUpAppProps, Types.CutUp
 
     const buttonSet = [
       (textEditContent === null && 
-        <button key='add' className='ca-app_primaryButton ca-box-add-btn' onClick={() => { this.openTextEdit(); }}>
+        <button key='add' className='ca-app_primaryButton ca-box-add-btn' onClick={() => { this.openNewTextEdit(); }}>
           <span className='ca-app_primaryButtonText'>+</span>
         </button>
       ),
@@ -100,6 +134,7 @@ export default class CutUpApp extends React.Component<CutUpAppProps, Types.CutUp
           textBoxes={this.state.textBoxes}
           selectedTextBox={this.state.selectedTextBox}
           updateTextBox={(data: Types.TextBox) => { this.updateTextBox(data); } }
+          editTextBoxContent={(id: string) => { this.openTextBoxForEdit(id); } }
           deleteTextBox={(id: string) => { this.deleteTextBox(id); } }
           updateSelectedTextBox={(selectedTextBox) => this.setState({ selectedTextBox })}
         />
@@ -127,6 +162,7 @@ function textToTextbox(id: string, text: string): null | Types.TextBox {
     return null;
   }
 
+  // TODO: position, size should be dependent on current viewport
   return {
     id,
     x: 50,

@@ -147,6 +147,7 @@ export function cynicalInstructions(): Types.CutUpAppState {
     ],
     "counter": 3,
     "visualDebugMode": false,
-    "textEditContent": null
+    "textEditContent": null,
+    "editingTextboxId": null
   };
 }

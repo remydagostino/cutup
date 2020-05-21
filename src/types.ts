@@ -24,5 +24,6 @@ export interface CutUpAppState {
   visualDebugMode: boolean;
   textEditContent: null | string;
   selectedTextBox: null | string;
+  editingTextboxId: null | string;
 }
 
