@@ -2,6 +2,7 @@ import * as Types from '../types';
 
 export function cynicalInstructions(): Types.CutUpAppState {
   return {
+    "selectedTextBox": null,
     "textBoxes": [
       {
         "id": "1",

@@ -105,6 +105,10 @@ Text area
   cursor: grab;
 }
 
+.ca-canvas_boxGrabber_selected > .ca-canvas_boxGrabberLabel {
+  box-shadow: 0px 0px 6px 0px hsl(245, 72%, 55%);
+}
+
 .ca-canvas__dragging .ca-canvas_box-grabber {
   cursor: grabbing;
 }

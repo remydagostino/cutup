@@ -96,9 +96,11 @@ export default class CutUpApp extends React.Component<CutUpAppProps, Types.CutUp
     return (
       <div className={'ca-app' + (this.state.visualDebugMode ? ' ca-app_visualDebugMode' : '')}>
         <CutUpCanvas 
-          textBoxes={this.state.textBoxes} 
+          textBoxes={this.state.textBoxes}
+          selectedTextBox={this.state.selectedTextBox}
           updateTextBox={(data: Types.TextBox) => { this.updateTextBox(data); } }
           deleteTextBox={(id: string) => { this.deleteTextBox(id); } }
+          updateSelectedTextBox={(selectedTextBox) => this.setState({ selectedTextBox })}
         />
         <div className='ca-box-control-panel'>
           {buttonSet} 

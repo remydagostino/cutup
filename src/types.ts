@@ -23,5 +23,6 @@ export interface CutUpAppState {
   counter: number;
   visualDebugMode: boolean;
   textEditContent: null | string;
+  selectedTextBox: null | string;
 }
 

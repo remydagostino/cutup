@@ -5,8 +5,10 @@ import * as Types from '../types'
 
 export interface CutUpCanvasProps {
   textBoxes: Array<Types.TextBox>;
+  selectedTextBox: null | string;
   updateTextBox: (data: Types.TextBox) => void;
   deleteTextBox: (id: string) => void;
+  updateSelectedTextBox: (id: string | null) => void;
 }
 
 export interface CutUpCanvasState {
@@ -16,9 +18,12 @@ export interface CutUpCanvasState {
 }
 
 export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUpCanvasState> {
+  rootEl: React.RefObject<HTMLDivElement>;
+
   constructor(props: CutUpCanvasProps) {
     super(props);
 
+    this.rootEl = React.createRef();
     this.state = {
       draggingBoxId: null,
       dragOffsetX: null,
@@ -28,6 +33,7 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
 
   render() {
     // TODO: colliding and laying out boxes should be it's own component
+    const { selectedTextBox } = this.props;
     const boxes: Array<Types.TextBox> = collideBoxes(this.props.textBoxes);
 
     const boxViews = boxes.map((data, index) => {
@@ -49,9 +55,11 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
 
     // TODO: grabbers should be collected into another view
     const grabberViews = this.props.textBoxes.map((data, index) => {
+      const isSelected = selectedTextBox === data.id;
+
       return (
         <div 
-          className='ca-canvas_boxGrabber' 
+          className={'ca-canvas_boxGrabber ' + (isSelected ? 'ca-canvas_boxGrabber_selected' : '') }
           style={({ left: data.x, top: data.y })}
           key={index}
         >
@@ -69,10 +77,12 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
     ].filter(Boolean);
 
     return (
-      <div 
+      <div
+        ref={this.rootEl}
         className={classNames.join(' ')}
         onMouseMove={(ev) => { this.canvasMouseMove(ev); }}
         onMouseUp={(ev) => { this.resetDragState(ev); }}
+        onMouseDown={(ev) => { this.clearBoxSelection(ev); }}
       >
         <div className='ca-canvas_boxes'>{boxViews}</div>
         <div className='ca-canvas_grabbers'>{grabberViews}</div>
@@ -83,6 +93,7 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
   boxMouseDown(boxId: string, ev: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     const boxData = this.props.textBoxes.find(({ id }) => id === boxId);
 
+    this.props.updateSelectedTextBox(boxId);
     this.setState({ 
       draggingBoxId: boxId,
       dragOffsetX: ev.clientX - boxData.x,
@@ -110,6 +121,12 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
       dragOffsetX: null,
       dragOffsetY: null
     })
+  }
+
+  clearBoxSelection(ev: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    if (ev.target === this.rootEl.current) {
+      this.props.updateSelectedTextBox(null);
+    }
   }
 }
 
