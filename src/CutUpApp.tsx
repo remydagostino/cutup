@@ -60,6 +60,7 @@ export default class CutUpApp extends React.Component<CutUpAppProps, Types.CutUp
 
   deleteTextBox(id: string) {
     this.setState((state, props) => ({
+      selectedTextBox: null,
       textBoxes: state.textBoxes.filter((data) => data.id !== id)
     }));
   }

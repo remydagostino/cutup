@@ -43,12 +43,7 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
           style={boxToCss(data)} 
           key={index}
         >
-          <TextBox 
-            textBoxData={data}
-            spacing={this.props.textBoxes.length} 
-            updateTextBox={this.props.updateTextBox}
-            deleteTextBox={this.props.deleteTextBox} 
-          />
+          <TextBox textBoxData={data} />
         </div>
       )
     });
@@ -61,12 +56,22 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
         <div 
           className={'ca-canvas_boxGrabber ' + (isSelected ? 'ca-canvas_boxGrabber_selected' : '') }
           style={({ left: data.x, top: data.y })}
-          key={index}
+          key={data.id}
         >
           <div 
             className='ca-canvas_boxGrabberLabel' 
             onMouseDown={(ev) => { this.boxMouseDown(data.id, ev); }}
           >{data.id}</div>
+
+          <div 
+            className='ca-canvas_boxGrabberEditButton' 
+            onMouseDown={(ev) => { console.log('edit') }}
+          >+</div>
+
+          <div 
+            className='ca-canvas_boxGrabberDeleteButton' 
+            onMouseDown={(ev) => { this.props.deleteTextBox(data.id); }}
+          >×</div>
         </div>
       )
     });

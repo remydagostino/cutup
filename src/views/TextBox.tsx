@@ -4,9 +4,6 @@ import * as Types from '../types';
 
 interface TextBoxProps {
   textBoxData: Types.TextBox;
-  spacing: number;
-  updateTextBox: (data: Types.TextBox) => void;
-  deleteTextBox: (id: string) => void;
 }
 
 export default class TextBox extends React.Component<TextBoxProps> {

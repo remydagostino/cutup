@@ -100,6 +100,7 @@ Text area
   line-height: 30px;
   text-align: center;
   color: #fff;
+  font-size: 16px;
 
   user-select: none;
   cursor: grab;
@@ -111,6 +112,37 @@ Text area
 
 .ca-canvas__dragging .ca-canvas_box-grabber {
   cursor: grabbing;
+}
+
+
+.ca-canvas_boxGrabberEditButton,
+.ca-canvas_boxGrabberDeleteButton {
+  position: absolute;
+  z-index: 1;
+  left: -47px;
+  top: 15px;
+  height: 25px;
+  width: 25px;
+
+  border-radius: 50%;
+  background: hsl(245, 72%, 60%);
+  line-height: 25px;
+  text-align: center;
+  color: #fff;
+  font-size: 13px;
+
+  user-select: none;
+  cursor: pointer;
+
+  transition: top 0.6s;
+}
+
+.ca-canvas:not(.ca-canvas__dragging) .ca-canvas_boxGrabber_selected > .ca-canvas_boxGrabberEditButton {
+  top: 50px;
+}
+
+.ca-canvas:not(.ca-canvas__dragging) .ca-canvas_boxGrabber_selected > .ca-canvas_boxGrabberDeleteButton {
+  top: 82px;
 }
 
 
