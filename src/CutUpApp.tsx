@@ -165,7 +165,7 @@ function textToTextbox(id: string, text: string): null | Types.TextBox {
   // TODO: position, size should be dependent on current viewport
   return {
     id,
-    x: 50,
+    x: 70,
     y: 50,
     height: measuredText.lines.length * 24,
     width: measuredText.maxWidth,
