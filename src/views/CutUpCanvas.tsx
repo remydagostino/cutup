@@ -14,21 +14,22 @@ export interface CutUpCanvasProps {
 
 export interface CutUpCanvasState {
   draggingBoxId: null | string;
-  dragOffsetX: null | number;
-  dragOffsetY: null | number;
 }
 
 export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUpCanvasState> {
   rootEl: React.RefObject<HTMLDivElement>;
+  dragOffsetX: null | number;
+  dragOffsetY: null | number;
 
   constructor(props: CutUpCanvasProps) {
     super(props);
 
     this.rootEl = React.createRef();
+    this.dragOffsetX = null;
+    this.dragOffsetY = null;
+
     this.state = {
       draggingBoxId: null,
-      dragOffsetX: null,
-      dragOffsetY: null
     };
   }
 
@@ -82,10 +83,15 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
       this.state.draggingBoxId != null ? 'ca-canvas__dragging' : false
     ].filter(Boolean);
 
+    const canvasHeight = boxes.reduce((acc, box) => {
+      return Math.max(acc, box.y + box.height);
+    }, this.rootEl.current ? this.rootEl.current.clientHeight : 0);
+
     return (
       <div
         ref={this.rootEl}
         className={classNames.join(' ')}
+        style={({ height: canvasHeight })}
         onMouseMove={(ev) => { this.canvasMouseMove(ev); }}
         onMouseUp={(ev) => { this.resetDragState(ev); }}
         onMouseDown={(ev) => { this.clearBoxSelection(ev); }}
@@ -100,15 +106,20 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
     const boxData = this.props.textBoxes.find(({ id }) => id === boxId);
 
     this.props.updateSelectedTextBox(boxId);
-    this.setState({ 
-      draggingBoxId: boxId,
-      dragOffsetX: ev.clientX - boxData.x,
-      dragOffsetY: ev.clientY - boxData.y
-    });
+
+    if (boxData) { 
+      const { x, y } = boxData;
+
+      this.dragOffsetX = ev.clientX - x,
+      this.dragOffsetY = ev.clientY - y,
+
+      this.setState((state) => ({ draggingBoxId: boxId }));
+    }
   }
 
   canvasMouseMove(ev: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    const { draggingBoxId, dragOffsetX, dragOffsetY } = this.state;
+    const { dragOffsetX, dragOffsetY } = this;
+    const { draggingBoxId } = this.state;
 
     if (draggingBoxId != null && dragOffsetX != null && dragOffsetY != null) {
       const boxData = this.props.textBoxes.find(({ id }) => id === draggingBoxId);
@@ -123,9 +134,7 @@ export default class CutUpCanvas extends React.Component<CutUpCanvasProps, CutUp
 
   resetDragState(ev: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     this.setState({ 
-      draggingBoxId: null,
-      dragOffsetX: null,
-      dragOffsetY: null
+      draggingBoxId: null
     })
   }
 
