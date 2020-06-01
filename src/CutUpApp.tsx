@@ -42,6 +42,10 @@ export default class CutUpApp extends React.Component<CutUpAppProps, Types.CutUp
     }
   }
 
+  closeEditOverlay() {
+    this.setState({ textEditContent: null });
+  }
+
   createTextBox() {
     this.setState((state: Types.CutUpAppState) => {
       const newTextBox = textToTextbox(String(state.counter), state.textEditContent);
@@ -111,18 +115,29 @@ export default class CutUpApp extends React.Component<CutUpAppProps, Types.CutUp
           <EditOverlay 
             content={textEditContent} 
             updateContent={(text: string) => this.updateTextEditContent(text)} 
+            closeOverlay={() => { this.closeEditOverlay(); }}
           />
         )
       : null
 
     const buttonSet = [
       (textEditContent === null && 
-        <button key='add' className='ca-app_primaryButton ca-box-add-btn' onClick={() => { this.openNewTextEdit(); }}>
+        <button 
+          key='add' 
+          className='ca-app_primaryButton ca-box-add-btn'
+          title='Add text box'
+          onClick={() => { this.openNewTextEdit(); }}
+        >
           <span className='ca-app_primaryButtonText'>+</span>
         </button>
       ),
       (textEditContent !== null && 
-        <button key='commit' className='ca-app_primaryButton ca-box-commit-btn' onClick={() => { this.createTextBox(); }}>
+        <button 
+            key='commit' 
+            className='ca-app_primaryButton ca-box-commit-btn'
+            title='Save changes'
+            onClick={() => { this.createTextBox(); }}
+          >
           <span className='ca-app_primaryButtonText'>✓</span>
         </button> 
       )
@@ -194,7 +209,7 @@ function globalKeydownHandler(this: CutUpApp, ev: KeyboardEvent): void {
   }
   // : escape
   else if (ev.keyCode === 27) {
-    this.setState({ textEditContent: null });
+    this.closeEditOverlay();
   }
 }
 

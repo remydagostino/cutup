@@ -239,6 +239,30 @@ Edit Overlay
   overflow: hidden;
 }
 
+.ca-editOverlay_close {
+  position: absolute;
+  top: 20px;
+  right: 15px;
+  font-size: 40px;
+  border: 0;
+  background: none;
+  color: hsl(0, 0%, 50%);
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
+  transition: background 0.3s;
+  outline: 0;
+}
+
+.ca-editOverlay_close:hover,
+.ca-editOverlay_close:active,
+.ca-editOverlay_close:focus {
+  background: hsl(0, 0%, 90%);
+  outline: 0;
+}
+
 @keyframes ca-paperslip {
   from {
     opacity: 0;
