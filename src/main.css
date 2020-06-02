@@ -197,15 +197,13 @@ Edit Overlay
 ***************/
 
 .ca-editOverlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   background: hsla(0, 0%, 100%, 20%);
   z-index: 20;
-
-  overflow-y: scroll;
 }
 
 .ca-editOverlay_paper {
@@ -240,7 +238,7 @@ Edit Overlay
 }
 
 .ca-editOverlay_close {
-  position: absolute;
+  position: fixed;
   top: 20px;
   right: 15px;
   font-size: 40px;
