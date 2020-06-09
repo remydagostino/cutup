@@ -58,7 +58,7 @@ export default class CutUpApp extends React.Component<CutUpAppProps, Types.CutUp
 
       if (state.editingTextboxId !== null) {
         return {
-          counter: null,
+          counter:  state.counter,
           editingTextboxId: null,
           textEditContent: null,
           textBoxes: state.textBoxes.map((textBox) => {
