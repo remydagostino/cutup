@@ -104,6 +104,7 @@ Text area
 
   user-select: none;
   cursor: grab;
+  touch-action: none;
 }
 
 .ca-canvas_boxGrabber_selected > .ca-canvas_boxGrabberLabel {
